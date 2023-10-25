@@ -253,7 +253,7 @@ Token proximo_token()
 				break;
 
 			case 5:
-				c = code[cont_sim_lido++];
+				c = code[cont_sim_lido];
 				if((c == ' ')||(c == '\n')){	
 					estado = 7;
 					cont_sim_lido++;
@@ -329,7 +329,7 @@ Token proximo_token()
 				c=code[cont_sim_lido];
 				if ((c == ' ')||(c == '\n'))
 				{
-					printf("Erro léxico: ~ deve ser sucedido do operador relacional '='\n");
+					printf("Erro lexico: ~ deve ser sucedido do operador relacional '='\n");
 					token.nome_token = EOF;
 					token.atributo = -1;
 					code[cont_sim_lido] = '\000'; 
