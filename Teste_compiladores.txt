@@ -1,0 +1,95 @@
+<=
+<>
+<
+>=
+>
+==
+=
+~=
+~   
+
+1
+20
+20.2
+20^+2
+20^-2
+
+
+Qualquer Identificador para ser Identificado
+
+and
+break
+do
+else
+elseif
+end
+false
+for
+function
+if
+in
+local
+nil
+not
+or
+repeat
+return
+then
+true
+until
+while 
+
+(
+)
+{
+}
+[
+]
+;
+:
+,
+.
+..
+
+
+"e se colocarmos  um caracter nao reconhecido pela linguagem?"
+caracter_estranho = & //tinha que printar "Erro lexico: um caracter não reconhecido pela linguagem foi inserido."
+
+a= "Ola, o comentario  longo na proxima  linha nao sera fechado, 20
+"
+--[[
+Escrevi um comentario longo,
+mas esqueci de fechar!
+
+while true
+    hello // tinha que printar "Erro lexico: Comentario longo não fechado corretamente."
+
+
+a = 3
+c = 5 -- comentario curto, o proximo numero está errado
+b = 23e // tinha que printar "Erro lexico: má formação do inteiro." e não erro de compilador
+
+exemplo = "uma string má formada
+
+bla = 2
+lula = 13 // está certo, só encontrar o porque o erro lexico fica printando toda vez.
+
+b = -12
+c = true or false
+d_2_m = "Hello"; // descobrir porque travou no começo da string
+for i in 0..10:
+    d_2_m = d_2_m + "!"
+
+
+string = "Ola Mundo!";
+b = 0
+while true
+    b = b  + 1 // RODOU PERFEITAMENTE
+
+a = 2; //descobrir porque ta dando erro lexico do . antes do numero 
+b = true
+c = 5
+d = (a + c)*3// RODOU PERFEITAMENTE
+
+a[23] //não mandou token de ] e deu erro lexico do . antes do numero 
+27(2) // antes de qualquer numero da dando erro lexico do . e também não printou token dos parenteses
