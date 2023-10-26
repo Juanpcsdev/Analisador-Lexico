@@ -133,9 +133,7 @@ int falhar()
 
 	case 13: partida = 16; break;
 
-	case 16: partida = 17; break;
-
-	case 17: partida = 24; break;
+	case 16: partida = 24; break;
 
 	case 24: partida = 30; break;
 
@@ -457,7 +455,11 @@ Token proximo_token()
 					number += c;
 				}
 				else{
-					estado = falhar();
+					// estado = falhar();
+					printf("Erro lexico: . deve ser sucedido de digito\n");
+					token.nome_token = EOF;
+					token.atributo = -1;
+					code[cont_sim_lido] = '\000';
 				}
 				break;
 
@@ -948,6 +950,7 @@ Token proximo_token()
 					}
 				}
 				if(c == '\0'){
+					printf("Erro lexico: Comentario nao foi finalizado\n");
 					token.nome_token = EOF;
 					token.atributo = -1;
 					code[cont_sim_lido] = '\000';
@@ -974,6 +977,7 @@ Token proximo_token()
 						c = code[cont_sim_lido];
 					}
 					else if (aninhado == -1){
+						printf("Erro lexico:Comentário longo nao foi finalizado\n");
 						token.nome_token = -1;
 						token.atributo = -1;
 						return(token);
@@ -998,9 +1002,9 @@ int main ()
 	while (code[cont_sim_lido] != '\000')
 		token = proximo_token();
 
-	// for (int i = 1; i < proximo_id; i++) {
-    // std::cout << "ID: " << i << ", Identificador: " << tabela_simbolos[i].identificador << std::endl;
-	// }
+	for (int i = 1; i < proximo_id; i++) {
+    std::cout << "ID: " << i << ", Identificador: " << tabela_simbolos[i].identificador << std::endl;
+	}
 
 	free(code);
 	return 0;
