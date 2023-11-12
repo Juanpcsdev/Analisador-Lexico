@@ -118,7 +118,7 @@ char *readFile(char *fileName)
 	{
 		code[n++] = (char) c;
 	}
-	code[n] = '\0';
+	code[n] = '\000';
 	return code;
 }
 
@@ -168,7 +168,7 @@ Token proximo_token()
 	int nomeToken = 0;// usado para identificar qual é a palavra reservada
 	int pos_str = 0; //usado para gravar a posição da string no buffer
 	char string_buffer[256]; // Um buffer para armazenar a string
-	int aninhado=0; // usado para gravar a quantidade de colchetes aninhados
+	int aninhado = 0; // usado para gravar a quantidade de colchetes aninhados
 	while(code[cont_sim_lido] != EOF) 
 	{
 		switch(estado)
@@ -199,6 +199,11 @@ Token proximo_token()
 					estado = 11;
 					cont_sim_lido++;
 				} 
+				else if (c == '\000'){
+						token.nome_token = EOF;
+						token.atributo = -1;
+						return(token);
+				}
 				else{
 					estado = falhar();
 				}
@@ -454,6 +459,12 @@ Token proximo_token()
 					cont_sim_lido++;
 					number += c;
 				}
+				else if (std::isalpha(c)){
+					printf("Erro lexico: Ma formacao do numero\n");
+					token.nome_token = EOF;
+					token.atributo = -1;
+					code[cont_sim_lido] = '\000';
+				}
 				else{
 					// estado = falhar();
 					printf("Erro lexico: . deve ser sucedido de digito\n");
@@ -679,7 +690,7 @@ Token proximo_token()
 
 			case 30:
 				c = code[cont_sim_lido];
-				if((c == ' ')||(c == '\n'))
+				if((c == ' ')||(c == '\n') || (c == '\000'))
 				{
 					estado = 0;
 					cont_sim_lido++;
@@ -724,13 +735,8 @@ Token proximo_token()
 					estado = 40;
 					cont_sim_lido++;
 				}
-				else
-				{
-					/*implementar ações referentes aos estado */
+				else{
 					estado = falhar();
-					// token.nome_token = -1;
-					// token.atributo = -1;\
-					// return(token);
 				}
 				break;
 			
@@ -855,7 +861,6 @@ Token proximo_token()
 			
 			case 44:
 				c = code[cont_sim_lido];
-				bool erro;
 
 				while((c != '"') && (c != '\0')){
 					string_buffer[pos_str] = c;
@@ -884,7 +889,7 @@ Token proximo_token()
 				estado = 0;
 				return(token);
 
-		//COMENTARIO LONGO E CURTO  // --coment --[coment --[[coment]] --[[coment --[[coment[[coment]]oi]]
+		//COMENTARIO LONGO E CURTO  // --coment --[[coment --[[coment]] --[[coment --[[coment[[coment]]oi]]]]]]
 			case 46:
 				c = code[cont_sim_lido];
 				if (c == '-') {	
@@ -949,18 +954,18 @@ Token proximo_token()
 						}
 					}
 				}
-				if(c == '\0'){
-					printf("Erro lexico: Comentario nao foi finalizado\n");
+				if(c == '\000'){
+					printf("Erro lexico: Comentario longo nao foi finalizado\n");
 					token.nome_token = EOF;
 					token.atributo = -1;
-					code[cont_sim_lido] = '\000';
+					return(token);
 				}
 				else if(c == ']'){
 					estado = 51;
 					cont_sim_lido++;
 				}
 				else{
-					printf("Erro lexico: Comentario nao foi finalizado\n");
+					printf("Erro lexico: Comentario longo nao foi finalizado\n");
 				}
 				break;
 				
@@ -977,18 +982,17 @@ Token proximo_token()
 						c = code[cont_sim_lido];
 					}
 					else if (aninhado == -1){
-						printf("Erro lexico:Comentário longo nao foi finalizado\n");
+						printf("Erro lexico: Comentario longo nao foi finalizado\n");
 						token.nome_token = -1;
 						token.atributo = -1;
 						return(token);
 					}
 				}
 				else{
-					printf("Erro lexico: Comentario nao foi finalizado\n");
+					printf("Erro lexico: Comentario longo nao foi finalizado\n");
 				break;
 				}
 		}
-
 	}
 	token.nome_token = EOF;
 	token.atributo = -1;

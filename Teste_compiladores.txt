@@ -102,9 +102,9 @@ Escrevi um comentario longo,
 mas esqueci de fechar!
 
 while true
-    hello        // tinha que printar "Erro lexico: Comentario longo não fechado corretamente."
+    hello       // tinha que printar "Erro lexico: Comentario longo não fechado corretamente."
 
--------------------NOT OK-----------------------
+-------------------OK-----------------------
 
 
 ---------------ERRO NUMERO COM LETRA--------------
