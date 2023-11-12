@@ -1,3 +1,5 @@
+-------OPERADORES RELACIONAIS E ATRIBUIÇÃO--------
+
 <=
 <>
 <
@@ -8,14 +10,28 @@
 ~=
 ~   
 
+----------------------OK-----------------------------
+
+
+---------------------NUMEROS--------------
+
 1
 20
 20.2
 20^+2
 20^-2
 
+-----------------------OK-------------------
+
+
+----------IDENTIFICADOR----------------
 
 Qualquer Identificador para ser Identificado
+
+-----------------OK---------------------------
+
+
+--------PALAVRAS RESERVADAS ---------------------
 
 and
 break
@@ -39,6 +55,21 @@ true
 until
 while 
 
+--------------------------------OK--------------------------------
+
+
+-----------------OPERADORES ARITMÉTICOS----------------
+
++
+-
+*
+/
+^
+-----------------------OK--------------------------
+
+
+------------------DELIMITADORES-------------------
+
 (
 )
 {
@@ -51,9 +82,18 @@ while
 .
 ..
 
+--------------------OK------------------------
+
+
+--------------CARACTER DESCONHECIDO-----------------
 
 "e se colocarmos  um caracter nao reconhecido pela linguagem?"
-caracter_estranho = & //tinha que printar "Erro lexico: um caracter não reconhecido pela linguagem foi inserido."
+caracter_estranho = &         //tinha que printar "Erro lexico: um caracter não reconhecido pela linguagem foi inserido."
+
+-------------------NOT OK-----------------------
+
+
+---------------ERRO COMENTARIO LONGO NÃO FECHADO--------------
 
 a= "Ola, o comentario  longo na proxima  linha nao sera fechado, 20
 "
@@ -62,17 +102,30 @@ Escrevi um comentario longo,
 mas esqueci de fechar!
 
 while true
-    hello // tinha que printar "Erro lexico: Comentario longo não fechado corretamente."
+    hello        // tinha que printar "Erro lexico: Comentario longo não fechado corretamente."
 
+-------------------NOT OK-----------------------
+
+
+---------------ERRO NUMERO COM LETRA--------------
 
 a = 3
 c = 5 -- comentario curto, o proximo numero está errado
-b = 23e // tinha que printar "Erro lexico: má formação do inteiro." e não erro de compilador
+b = 23e         // tinha que printar "Erro lexico: má formação do inteiro." e não erro de compilador
 
-exemplo = "uma string má formada
+-------------------NOT OK-----------------------
 
+
+---------------ERRO STRING MÁ FORMADA--------------
+
+exemplo = "uma string má formada     //está printando certo mas não identifica o fim, ou seja printa direto, aqui já da
 bla = 2
 lula = 13 // está certo, só encontrar o porque o erro lexico fica printando toda vez.
+
+-------------------NOT OK-----------------------
+
+
+-----------------------TESTE GERAL 01----------------
 
 b = -12
 c = true or false
@@ -80,16 +133,33 @@ d_2_m = "Hello"; // descobrir porque travou no começo da string
 for i in 0..10:
     d_2_m = d_2_m + "!"
 
+-------------------NOT OK-----------------------
+
+
+-----------------------TESTE GERAL 02----------------
 
 string = "Ola Mundo!";
 b = 0
 while true
     b = b  + 1 // RODOU PERFEITAMENTE
 
+----------------------OK----------------------------------    
+
+
+--------------------TESTE GERAL 03-------------------
+
 a = 2; //descobrir porque ta dando erro lexico do . antes do numero 
 b = true
 c = 5
 d = (a + c)*3// RODOU PERFEITAMENTE
 
+----------------------OK E NOT OK-------------------------
+
+
+---------------PROBLEMAS FUDIDOS E OUTROS NEM TANTO-----------------------
+
 a[23] //não mandou token de ] e deu erro lexico do . antes do numero 
 27(2) // antes de qualquer numero da dando erro lexico do . e também não printou token dos parenteses
+--[[]]  //descobri porque está dando erro de comentário não finalizado.
+
+------------------------ACABOOOUUUU---------------------------------
