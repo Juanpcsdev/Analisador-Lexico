@@ -1,6 +1,6 @@
 /*
- * ESTE CÓDIGO IMPLEMENTA UM ANALIZADOR LÉXICO PARA O EXEMPLO DE FRAGMENTO DE LINGUAGEM APRESENTADO EM SALA DE AULA (VEJA OS SLIDES DA AULA 4: ANÁLISE LÉXICA: PARTE 2)
- * E PODERÁ SER UTILIZADO COMO PONTO DE PARTIDA PARA IMPLEMENTAÇÃO DO ANALISADOR LÉXICO PARA LINGUAGEM ADOTADA NO TRABALHO PROPOSTO.
+ * ESTE CÃ“DIGO IMPLEMENTA UM ANALIZADOR LÃ‰XICO PARA O EXEMPLO DE FRAGMENTO DE LINGUAGEM APRESENTADO EM SALA DE AULA (VEJA OS SLIDES DA AULA 4: ANÃLISE LÃ‰XICA: PARTE 2)
+ * E PODERÃ SER UTILIZADO COMO PONTO DE PARTIDA PARA IMPLEMENTAÃ‡ÃƒO DO ANALISADOR LÃ‰XICO PARA LINGUAGEM ADOTADA NO TRABALHO PROPOSTO.
  * */
 
 #include <stdio.h>
@@ -26,7 +26,7 @@
 #define GT 266;
 #define GE 267;
 
-//Pensamos que iamos usar e não precisamos no fim
+//Pensamos que iamos usar e nÃ£o precisamos no fim
 // int digito [10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 // char delim[11][3] = {"(", ")", "{", "}", "[", "]", ";", ":", ",", ".", ".."};
 // char oper_arit [5] = {'+', '-', '*', '/', '^'};
@@ -38,8 +38,8 @@ std::string reserved [21] = {"and", "break","do", "else", "elseif","end", "false
 
 
 
-// Declarações de variáveis globais
-const int MAX_IDENTIFICADORES = 100;  // Tamanho máximo da tabela de símbolos
+// DeclaraÃ§Ãµes de variÃ¡veis globais
+const int MAX_IDENTIFICADORES = 100;  // Tamanho mÃ¡ximo da tabela de sÃ­mbolos
 
 struct EntradaTabela {
     std::string identificador;
@@ -47,35 +47,35 @@ struct EntradaTabela {
 };
 
 EntradaTabela tabela_simbolos[MAX_IDENTIFICADORES];
-int proximo_id = 1;  // Próximo ID a ser atribuído
+int proximo_id = 1;  // PrÃ³ximo ID a ser atribuÃ­do
 
 int buscarNaTabelaDeSimbolos(const std::string& identificador) {
     for (int i = 1; i < proximo_id; i++) {
         if (tabela_simbolos[i].identificador == identificador) {
-            return i;  // O identificador já existe, retorna o ID existente
+            return i;  // O identificador jÃ¡ existe, retorna o ID existente
         }
     }
-    return -1;  // O identificador não foi encontrado na tabela
+    return -1;  // O identificador nÃ£o foi encontrado na tabela
 }
 
 int adicionarNaTabelaDeSimbolos(const std::string& identificador) {
     int posicaoExistente = buscarNaTabelaDeSimbolos(identificador);
     if (posicaoExistente != -1) {
-        return posicaoExistente;  // O identificador já existe, retorna o ID existente
+        return posicaoExistente;  // O identificador jÃ¡ existe, retorna o ID existente
     }
 
-    // Se o identificador não foi encontrado na tabela, adicione-o
+    // Se o identificador nÃ£o foi encontrado na tabela, adicione-o
     if (proximo_id < MAX_IDENTIFICADORES) {
         tabela_simbolos[proximo_id].identificador = identificador;
-        return proximo_id++;  // Retorna o novo ID e incrementa próximo_id
+        return proximo_id++;  // Retorna o novo ID e incrementa prÃ³ximo_id
     } else {
-        printf("Tabela de símbolos está cheia.");
-        return -1;  // Erro, a tabela de símbolos está cheia
+        printf("Tabela de sÃ­mbolos estÃ¡ cheia.");
+        return -1;  // Erro, a tabela de sÃ­mbolos estÃ¡ cheia
     }
 }
 
 
-bool eOperador(char c){ // função para identificar caracteres depois de um numero que não seja ' ' e \n
+bool eOperador(char c){ // funÃ§Ã£o para identificar caracteres depois de um numero que nÃ£o seja ' ' e \n
     char operadores[19][2] = {"(", ")", "{", "}", "[", "]", ";", ":", ",", "+", "-", "*", "/", "^", "=", "~","<", ">"};
     for(int i=0; i<19; i++){
         if(c == operadores[i][0]){
@@ -165,8 +165,8 @@ Token proximo_token()
 	std::string identificador; //armazena cada caractere que passa no automato do identificador
 	std::string number; // armazena cada caractere que passa no automato dos numeros 
 	bool isReserved = false; //bool para as palvras reservadas
-	int nomeToken = 0;// usado para identificar qual é a palavra reservada
-	int pos_str = 0; //usado para gravar a posição da string no buffer
+	int nomeToken = 0;// usado para identificar qual Ã© a palavra reservada
+	int pos_str = 0; //usado para gravar a posiÃ§Ã£o da string no buffer
 	char string_buffer[256]; // Um buffer para armazenar a string
 	int aninhado = 0; // usado para gravar a quantidade de colchetes aninhados
 	while(code[cont_sim_lido] != EOF) 
@@ -174,7 +174,7 @@ Token proximo_token()
 		switch(estado)
 		{
 
-//OPERADORES RELACIONAIS E ATRIBUIÇÃO
+//OPERADORES RELACIONAIS E ATRIBUIÃ‡ÃƒO
 
 			case 0:
 				c = code[cont_sim_lido];
@@ -227,7 +227,7 @@ Token proximo_token()
 					printf("Erro lexico: < deve ser sucedido de algum operador relacional ou ' '\n");
 					token.nome_token = EOF;
 					token.atributo = -1;
-					code[cont_sim_lido] = '\000'; 
+					return (token); 
 				}
 				break;
 
@@ -335,11 +335,16 @@ Token proximo_token()
 					printf("Erro lexico: ~ deve ser sucedido do operador relacional '='\n");
 					token.nome_token = EOF;
 					token.atributo = -1;
-					code[cont_sim_lido] = '\000'; 
+					code[cont_sim_lido] = '\000';
 				}	
 				else if ((c == '=')){
 					estado = 12;
 					cont_sim_lido++;
+				}
+				else if (c == '\000'){
+					token.nome_token = EOF;
+					token.atributo = -1;
+					return(token);
 				}
 				break;
 			
@@ -398,21 +403,21 @@ Token proximo_token()
 				}
 
 				if (isReserved == true) {
-					// É uma palavra reservada, emite o token correspondente
+					// Ã‰ uma palavra reservada, emite o token correspondente
 					printf("<%s,  >\n", identificador.c_str());
 					token.nome_token = nomeToken;  // Armazena o nome da palavra reservada como token
 					token.atributo = ' ';  // Atributo vazio para palavras reservadas
 				}
 				else{
-					// Não é uma palavra reservada, verifica se já existe na tabela de símbolos
+					// NÃ£o Ã© uma palavra reservada, verifica se jÃ¡ existe na tabela de sÃ­mbolos
 					int posicaoExistente = buscarNaTabelaDeSimbolos(identificador);
 					if (posicaoExistente != -1) {
-						// O identificador já existe, use o ID existente
+						// O identificador jÃ¡ existe, use o ID existente
 						printf("<ID, %d>\n", posicaoExistente);
 						token.nome_token = ID;
 						token.atributo = posicaoExistente;
 					} else {
-						// O identificador não existe na tabela de símbolos, adicione-o
+						// O identificador nÃ£o existe na tabela de sÃ­mbolos, adicione-o
 						printf("<ID, %d>\n", proximo_id);
 						tabela_simbolos[proximo_id].identificador = identificador;
 						token.nome_token = ID;
@@ -438,9 +443,9 @@ Token proximo_token()
 				}
 				break;
 
-			case 17: //final - retornar token
+			case 17:
 				c = code[cont_sim_lido];
-				if ((c == ' ') || (c == '\n')|| (c == '\000')){
+				if ((c == ' ') || (c == '\n')|| (c == ';')){
 					estado = 23;
 					cont_sim_lido++;
 				}
@@ -464,6 +469,15 @@ Token proximo_token()
 					token.nome_token = EOF;
 					token.atributo = -1;
 					code[cont_sim_lido] = '\000';
+				}
+				else if (c == '\000'){
+					estado = 23;
+					code[cont_sim_lido] = '\000';
+				}
+				else if (eOperador(c)){
+					estado = 17;
+					cont_sim_lido++;
+					number += c;
 				}
 				else{
 					// estado = falhar();
@@ -600,7 +614,7 @@ Token proximo_token()
 				return(token);
 				break;
 
-// OPERADORES ARITMÉTICOS
+// OPERADORES ARITMÃ‰TICOS
 
 			case 24:
 				c = code[cont_sim_lido];
@@ -870,7 +884,7 @@ Token proximo_token()
 				}
 				if (c == '"') {
 						estado = 45;
-						cont_sim_lido++; // Avança para além da aspas de fechamento
+						cont_sim_lido++; // AvanÃ§a para alÃ©m da aspas de fechamento
 						string_buffer[pos_str] = c;
 						pos_str++;
 				}
@@ -878,6 +892,7 @@ Token proximo_token()
 					printf("Erro lexico: String nao foi finalizada\n");
 					token.nome_token = EOF;
 					token.atributo = -1;
+					return(token);
 				}
 				string_buffer[pos_str] = '\0'; // Termina a string no buffer
 				break;
@@ -954,24 +969,23 @@ Token proximo_token()
 						}
 					}
 				}
-				if(c == '\000'){
-					printf("Erro lexico: Comentario longo nao foi finalizado\n");
-					token.nome_token = EOF;
-					token.atributo = -1;
-					return(token);
-				}
-				else if(c == ']'){
+				if(c == ']'){
 					estado = 51;
 					cont_sim_lido++;
 				}
+				else if (c == '\000'){
+					estado = 51;
+				}
 				else{
-					printf("Erro lexico: Comentario longo nao foi finalizado\n");
+					token.nome_token = EOF;
+					token.atributo = -1;
+					return(token);
 				}
 				break;
 				
 			case 51:
 				c = code[cont_sim_lido];
-				if (c != ']') {
+				if ((c != ']') && (c != '\000')) {
 					estado = 50;
 				}
 				else if(c == ']'){
@@ -990,6 +1004,9 @@ Token proximo_token()
 				}
 				else{
 					printf("Erro lexico: Comentario longo nao foi finalizado\n");
+					token.nome_token = -1;
+					token.atributo = -1;
+					return(token);
 				break;
 				}
 		}

@@ -8,7 +8,7 @@
 ==
 =
 ~=
-~ // código não para por causa dele  
+~
 
 ----------------------OK-----------------------------
 
@@ -111,9 +111,9 @@ while true
 
 a = 3
 c = 5 -- comentario curto, o proximo numero está errado
-b = 23e         // tinha que printar "Erro lexico: má formação do inteiro." e não erro de compilador
+b = 23e         // printa mas dps printa o numero sem o e, fácil resolver mas tem q fazer funcionar junto do 27(2)
 
--------------------NOT OK-----------------------
+------------------- OK and NOT OK -----------------------
 
 
 ---------------ERRO STRING MÁ FORMADA--------------
@@ -122,18 +122,18 @@ exemplo = "uma string má formada     //está printando certo mas não identific
 bla = 2
 lula = 13 // está certo, só encontrar o porque o erro lexico fica printando toda vez.
 
--------------------NOT OK-----------------------
+------------------- OK -----------------------
 
 
 -----------------------TESTE GERAL 01----------------
 
 b = -12
 c = true or false
-d_2_m = "Hello"; // descobrir porque travou no começo da string
-for i in 0..10:
-    d_2_m = d_2_m + "!"
+dm = "Hello";
+for i in 0 .. 10:
+    dm = dm + "!"
 
--------------------NOT OK-----------------------
+------------------- OK -----------------------
 
 
 -----------------------TESTE GERAL 02----------------
@@ -148,18 +148,19 @@ while true
 
 --------------------TESTE GERAL 03-------------------
 
-a = 2; //descobrir porque ta dando erro lexico do . antes do numero 
+a = 2;
 b = true
 c = 5
 d = (a + c)*3// RODOU PERFEITAMENTE
 
-----------------------OK E NOT OK-------------------------
+---------------------- OK -------------------------
 
 
 ---------------PROBLEMAS FUDIDOS E OUTROS NEM TANTO-----------------------
 
 a[23] //não mandou token de ] e deu erro lexico do . antes do numero 
-27(2) // antes de qualquer numero da dando erro lexico do . e também não printou token dos parenteses
---[[]]  //descobri porque está dando erro de comentário não finalizado.
+27(2) // antes de qualquer numero da dando erro lexico do . e também não printou token dos parenteses (OK)
+--[[]]  //descobri porque está dando erro de comentário não finalizado. (OK)
+Id_test // não aceita caracteres especiais em identificadores _ , .
 
 ------------------------ACABOOOUUUU---------------------------------
