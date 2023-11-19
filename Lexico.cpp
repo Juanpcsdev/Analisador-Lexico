@@ -1,8 +1,3 @@
-/*
- * ESTE CÃ“DIGO IMPLEMENTA UM ANALIZADOR LÃ‰XICO PARA O EXEMPLO DE FRAGMENTO DE LINGUAGEM APRESENTADO EM SALA DE AULA (VEJA OS SLIDES DA AULA 4: ANÃLISE LÃ‰XICA: PARTE 2)
- * E PODERÃ SER UTILIZADO COMO PONTO DE PARTIDA PARA IMPLEMENTAÃ‡ÃƒO DO ANALISADOR LÃ‰XICO PARA LINGUAGEM ADOTADA NO TRABALHO PROPOSTO.
- * */
-
 #include <stdio.h>
 #include <string>
 #include <stdexcept>
@@ -26,20 +21,11 @@
 #define GT 266;
 #define GE 267;
 
-//Pensamos que iamos usar e nÃ£o precisamos no fim
-// int digito [10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-// char delim[11][3] = {"(", ")", "{", "}", "[", "]", ";", ":", ",", ".", ".."};
-// char oper_arit [5] = {'+', '-', '*', '/', '^'};
-// std::string oper_rel [7] = {"=", "~=", "<=", ">=", "<", ">", "=="};
-
-
 std::string reserved [21] = {"and", "break","do", "else", "elseif","end", "false", "for", "function", "if",
 					"in","local","nil","not","or","repeat","return","then","true","until","while"};
 
-
-
-// DeclaraÃ§Ãµes de variÃ¡veis globais
-const int MAX_IDENTIFICADORES = 100;  // Tamanho mÃ¡ximo da tabela de sÃ­mbolos
+// Declaracoes de variaveis globais
+const int MAX_IDENTIFICADORES = 100;  // Tamanho maximo da tabela de simbolos
 
 struct EntradaTabela {
     std::string identificador;
@@ -47,43 +33,44 @@ struct EntradaTabela {
 };
 
 EntradaTabela tabela_simbolos[MAX_IDENTIFICADORES];
-int proximo_id = 1;  // PrÃ³ximo ID a ser atribuÃ­do
+int proximo_id = 1;  // Proximo ID a ser atribui­do
 
 int buscarNaTabelaDeSimbolos(const std::string& identificador) {
     for (int i = 1; i < proximo_id; i++) {
         if (tabela_simbolos[i].identificador == identificador) {
-            return i;  // O identificador jÃ¡ existe, retorna o ID existente
+            return i;  // O identificador ja existe, retorna o ID existente
         }
     }
-    return -1;  // O identificador nÃ£o foi encontrado na tabela
+    return -1;  // O identificador nao foi encontrado na tabela
 }
 
 int adicionarNaTabelaDeSimbolos(const std::string& identificador) {
     int posicaoExistente = buscarNaTabelaDeSimbolos(identificador);
     if (posicaoExistente != -1) {
-        return posicaoExistente;  // O identificador jÃ¡ existe, retorna o ID existente
+        return posicaoExistente;  // O identificador ja existe, retorna o ID existente
     }
 
-    // Se o identificador nÃ£o foi encontrado na tabela, adicione-o
+    // Se o identificador nao foi encontrado na tabela, adicione-o
     if (proximo_id < MAX_IDENTIFICADORES) {
         tabela_simbolos[proximo_id].identificador = identificador;
-        return proximo_id++;  // Retorna o novo ID e incrementa prÃ³ximo_id
+        return proximo_id++;  // Retorna o novo ID e incrementa proximo_id
     } else {
-        printf("Tabela de sÃ­mbolos estÃ¡ cheia.");
-        return -1;  // Erro, a tabela de sÃ­mbolos estÃ¡ cheia
+        printf("Tabela de simbolos esta cheia.");
+        return -1;  // Erro, a tabela de si­mbolos esta cheia
     }
 }
 
 
-bool eOperador(char c){ // funÃ§Ã£o para identificar caracteres depois de um numero que nÃ£o seja ' ' e \n
-    char operadores[19][2] = {"(", ")", "{", "}", "[", "]", ";", ":", ",", "+", "-", "*", "/", "^", "=", "~","<", ">"};
-    for(int i=0; i<19; i++){
+bool eOperador(char c){ // funçao para identificar caracteres depois de um numero que nao seja ' ' e \n
+    char operadores[13][2] = {"(", ")", "{", "}", "[", "]", ";", ":", ",", "=", "~","<", ">"};
+    for(int i=0; i<13; i++){
         if(c == operadores[i][0]){
             return true;
         }
     }
     return false;
 }
+
 
 
 struct Token{
@@ -165,8 +152,8 @@ Token proximo_token()
 	std::string identificador; //armazena cada caractere que passa no automato do identificador
 	std::string number; // armazena cada caractere que passa no automato dos numeros 
 	bool isReserved = false; //bool para as palvras reservadas
-	int nomeToken = 0;// usado para identificar qual Ã© a palavra reservada
-	int pos_str = 0; //usado para gravar a posiÃ§Ã£o da string no buffer
+	int nomeToken = 0;// usado para identificar qual e a palavra reservada
+	int pos_str = 0; //usado para gravar a posicao da string no buffer
 	char string_buffer[256]; // Um buffer para armazenar a string
 	int aninhado = 0; // usado para gravar a quantidade de colchetes aninhados
 	while(code[cont_sim_lido] != EOF) 
@@ -174,7 +161,7 @@ Token proximo_token()
 		switch(estado)
 		{
 
-//OPERADORES RELACIONAIS E ATRIBUIÃ‡ÃƒO
+//OPERADORES RELACIONAIS E ATRIBUICAO
 
 			case 0:
 				c = code[cont_sim_lido];
@@ -330,21 +317,23 @@ Token proximo_token()
 
 			case 11:
 				c=code[cont_sim_lido];
-				if ((c == ' ')||(c == '\n'))
+				if (c == '\000'){
+					printf("Erro lexico: ~ deve ser sucedido do operador relacional '='\n");
+					token.nome_token = EOF;
+					token.atributo = -1;
+					return(token);
+				}
+				else if ((c == ' ')||(c == '\n'))
 				{
 					printf("Erro lexico: ~ deve ser sucedido do operador relacional '='\n");
 					token.nome_token = EOF;
 					token.atributo = -1;
 					code[cont_sim_lido] = '\000';
+					return(token);
 				}	
 				else if ((c == '=')){
 					estado = 12;
 					cont_sim_lido++;
-				}
-				else if (c == '\000'){
-					token.nome_token = EOF;
-					token.atributo = -1;
-					return(token);
 				}
 				break;
 			
@@ -371,6 +360,17 @@ Token proximo_token()
 					cont_sim_lido++;
 					identificador += c;
 				}
+				else if ((c == '#')|| (c == '$') || (c == '%')|| (c == '&')){
+					printf("Erro lexico: um caracter nao reconhecido pela linguagem foi inserido.\n");
+					token.nome_token = EOF;
+					token.atributo = -1;
+					code[cont_sim_lido] = '\000';
+				}
+				else if (c == '\000'){
+					token.nome_token = EOF;
+					token.atributo = -1;
+					return (token);
+				}
 				else{
 					estado = falhar();
 				}
@@ -383,7 +383,7 @@ Token proximo_token()
 					estado = 15;
 					cont_sim_lido++;
 				}
-				else if (std::isalnum(c)){
+				else if ((std::isalnum(c)) || (c == '_')){
 					estado = 14;
 					cont_sim_lido++;
 					identificador += c;
@@ -403,21 +403,21 @@ Token proximo_token()
 				}
 
 				if (isReserved == true) {
-					// Ã‰ uma palavra reservada, emite o token correspondente
+					// e uma palavra reservada, emite o token correspondente
 					printf("<%s,  >\n", identificador.c_str());
 					token.nome_token = nomeToken;  // Armazena o nome da palavra reservada como token
 					token.atributo = ' ';  // Atributo vazio para palavras reservadas
 				}
 				else{
-					// NÃ£o Ã© uma palavra reservada, verifica se jÃ¡ existe na tabela de sÃ­mbolos
+					// Nao e uma palavra reservada, verifica se ja existe na tabela de si­mbolos
 					int posicaoExistente = buscarNaTabelaDeSimbolos(identificador);
 					if (posicaoExistente != -1) {
-						// O identificador jÃ¡ existe, use o ID existente
+						// O identificador ja existe, use o ID existente
 						printf("<ID, %d>\n", posicaoExistente);
 						token.nome_token = ID;
 						token.atributo = posicaoExistente;
 					} else {
-						// O identificador nÃ£o existe na tabela de sÃ­mbolos, adicione-o
+						// O identificador nao existe na tabela de si­mbolos, adicione-o
 						printf("<ID, %d>\n", proximo_id);
 						tabela_simbolos[proximo_id].identificador = identificador;
 						token.nome_token = ID;
@@ -450,9 +450,22 @@ Token proximo_token()
 					cont_sim_lido++;
 				}
 				else if (std::isdigit(c)){
-					estado = 17;
 					cont_sim_lido++;
-					number += c;
+					c = code[cont_sim_lido];
+					if (eOperador(c)){
+						cont_sim_lido--;
+						c = code[cont_sim_lido];
+						estado = 23;
+						number += c;
+						cont_sim_lido++;
+					}
+					else {
+						cont_sim_lido--;
+						c = code[cont_sim_lido];
+						estado = 17;
+						cont_sim_lido++;
+						number += c;
+					}
 				}
 				else if (c == '.'){
 					estado = 18;
@@ -466,18 +479,38 @@ Token proximo_token()
 				}
 				else if (std::isalpha(c)){
 					printf("Erro lexico: Ma formacao do numero\n");
+					cont_sim_lido++;
 					token.nome_token = EOF;
 					token.atributo = -1;
-					code[cont_sim_lido] = '\000';
+					return (token);
 				}
 				else if (c == '\000'){
 					estado = 23;
 					code[cont_sim_lido] = '\000';
 				}
 				else if (eOperador(c)){
-					estado = 17;
-					cont_sim_lido++;
-					number += c;
+					if (c == ']'){
+					printf("<numero, %s>\n", number.c_str());
+					token.nome_token = NUM;
+					token.atributo = std::stoi(number);
+					number.clear(); 
+					estado = 30;
+					}
+					else if (c == '(') {
+						estado = 30;
+					}
+					else if (c == ')') {
+						printf("<numero, %s>\n", number.c_str());
+						token.nome_token = NUM;
+						token.atributo = std::stoi(number);
+						number.clear(); 
+						estado = 30;
+					}
+					else {
+						estado = 17;
+						cont_sim_lido++;
+						number += c;
+					}
 				}
 				else{
 					// estado = falhar();
@@ -614,7 +647,7 @@ Token proximo_token()
 				return(token);
 				break;
 
-// OPERADORES ARITMÃ‰TICOS
+// OPERADORES ARITMETICOS
 
 			case 24:
 				c = code[cont_sim_lido];
@@ -884,7 +917,7 @@ Token proximo_token()
 				}
 				if (c == '"') {
 						estado = 45;
-						cont_sim_lido++; // AvanÃ§a para alÃ©m da aspas de fechamento
+						cont_sim_lido++; // Avanca para alem da aspas de fechamento
 						string_buffer[pos_str] = c;
 						pos_str++;
 				}
@@ -941,6 +974,11 @@ Token proximo_token()
 					if(c == '\n'){
 						estado = 0;
 					}
+					else {
+					token.nome_token = -1;
+					token.atributo = -1;
+					return(token);
+					}
 				}	
 				break;
 			
@@ -958,28 +996,37 @@ Token proximo_token()
 				
 			case 50:
 				c = code[cont_sim_lido];
-				while((c != ']') && (c != '\0')){
-					cont_sim_lido++;
-					c = code[cont_sim_lido];
-					if(c == '['){
+				if (aninhado == 0 ){
+					estado = 0;
+				}
+				else {
+					while((c != ']') && (c != '\0') && (c != '\n')){
 						cont_sim_lido++;
 						c = code[cont_sim_lido];
 						if(c == '['){
-							aninhado++; 
+							cont_sim_lido++;
+							c = code[cont_sim_lido];
+							if(c == '['){
+								aninhado++; 
+							}
 						}
 					}
-				}
-				if(c == ']'){
-					estado = 51;
-					cont_sim_lido++;
-				}
-				else if (c == '\000'){
-					estado = 51;
-				}
-				else{
-					token.nome_token = EOF;
-					token.atributo = -1;
-					return(token);
+					if(c == ']'){
+						estado = 51;
+						cont_sim_lido++;
+					}
+					else if (c == '\000'){
+						estado = 51;
+					}
+					else if (c == '\n'){
+						estado = 50;
+						cont_sim_lido++;
+					}
+					else{
+						token.nome_token = EOF;
+						token.atributo = -1;
+						return(token);
+					}
 				}
 				break;
 				
@@ -1002,13 +1049,18 @@ Token proximo_token()
 						return(token);
 					}
 				}
-				else{
+				else if (c == '\000'){
 					printf("Erro lexico: Comentario longo nao foi finalizado\n");
 					token.nome_token = -1;
 					token.atributo = -1;
 					return(token);
-				break;
 				}
+				else{
+					token.nome_token = -1;
+					token.atributo = -1;
+					return(token);
+				}
+				break;
 		}
 	}
 	token.nome_token = EOF;

@@ -90,7 +90,7 @@ while
 "e se colocarmos  um caracter nao reconhecido pela linguagem?"
 caracter_estranho = &         //tinha que printar "Erro lexico: um caracter não reconhecido pela linguagem foi inserido."
 
--------------------NOT OK-----------------------
+------------------- OK -----------------------
 
 
 ---------------ERRO COMENTARIO LONGO NÃO FECHADO--------------
@@ -113,7 +113,7 @@ a = 3
 c = 5 -- comentario curto, o proximo numero está errado
 b = 23e         // printa mas dps printa o numero sem o e, fácil resolver mas tem q fazer funcionar junto do 27(2)
 
-------------------- OK and NOT OK -----------------------
+------------------- OK -----------------------
 
 
 ---------------ERRO STRING MÁ FORMADA--------------
@@ -129,9 +129,9 @@ lula = 13 // está certo, só encontrar o porque o erro lexico fica printando to
 
 b = -12
 c = true or false
-dm = "Hello";
+d_m_2 = "Hello";
 for i in 0 .. 10:
-    dm = dm + "!"
+    d_m_2 = d_m_2 + "!"
 
 ------------------- OK -----------------------
 
@@ -158,9 +158,9 @@ d = (a + c)*3// RODOU PERFEITAMENTE
 
 ---------------PROBLEMAS FUDIDOS E OUTROS NEM TANTO-----------------------
 
-a[23] //não mandou token de ] e deu erro lexico do . antes do numero 
+a[23] //não mandou token de ] e deu erro lexico do . antes do numero vez (OK)
 27(2) // antes de qualquer numero da dando erro lexico do . e também não printou token dos parenteses (OK)
 --[[]]  //descobri porque está dando erro de comentário não finalizado. (OK)
-Id_test // não aceita caracteres especiais em identificadores _ , .
+Id_test // não aceita caracteres especiais em identificadores _ , . (OK)
 
 ------------------------ACABOOOUUUU---------------------------------
